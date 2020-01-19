@@ -1,6 +1,8 @@
 import 'dart:html';
 import 'dart:math';
 
+import 'package:quiver/core.dart';
+
 class CellCoords {
   final int row;
   final int column;
@@ -9,6 +11,11 @@ class CellCoords {
   int get y => column * cellSize + 1;
 
   const CellCoords(this.row, this.column);
+
+  bool operator ==(Object to) =>
+      to is CellCoords && to.row == row && to.column == column;
+
+  int get hashCode => hash2(row, column);
 }
 
 abstract class CellContent {

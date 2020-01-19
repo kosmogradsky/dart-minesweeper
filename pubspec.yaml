@@ -4,10 +4,10 @@ description: An absolute bare-bones web app.
 #homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: ">=2.7.0 <3.0.0"
 
-#dependencies:
-#  path: ^1.6.0
+dependencies:
+  quiver: ^2.1.2+1
 
 dev_dependencies:
   build_runner: ^1.6.0
