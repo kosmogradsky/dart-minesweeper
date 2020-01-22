@@ -102,8 +102,15 @@ void main() {
   canvas.style.width = '${canvasSize}px';
   canvas.style.height = '${canvasSize}px';
 
-  canvas.addEventListener('click', (event) {
-    print(event);
+  canvas.onClick.listen((event) {
+    var canvasRect = canvas.getBoundingClientRect();
+    var clickX = (event.client.x - canvasRect.left - canvas.clientLeft)
+        .clamp(0, canvasSize);
+    var clickY = (event.client.y - canvasRect.top - canvas.clientTop)
+        .clamp(0, canvasSize);
+    var clickRow = clickY ~/ cellSize;
+    var clickColumn = clickX ~/ cellSize;
+    var clickIndex = clickRow * boardSize + clickColumn;
   });
 
   var cellsCount = pow(boardSize, 2);
