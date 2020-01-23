@@ -13,4 +13,32 @@ class CellCoords {
       to is CellCoords && to.row == row && to.column == column;
 
   int get hashCode => hash2(row, column);
+
+  static BuiltSet<CellCoords> getNeighbors(CellCoords coords) {
+    var neighbors = <CellCoords>{};
+
+    for (var row = coords.row - 1; row < coords.row + 1; row++) {
+      if (row < 0 || row > boardSize) {
+        continue;
+      }
+
+      for (var column = coords.column - 1;
+          column < coords.column + 1;
+          column++) {
+        if (column < 0 || column > boardSize) {
+          continue;
+        }
+
+        var neighbor = CellCoords(row, column);
+
+        if (neighbor == coords) {
+          continue;
+        }
+
+        neighbors.add(neighbor);
+      }
+    }
+
+    return neighbors.build();
+  }
 }

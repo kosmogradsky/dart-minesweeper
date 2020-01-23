@@ -72,7 +72,7 @@ void main() {
     var clickIndex = clickRow * boardSize + clickColumn;
     var nextCells = game.cells.rebuild((prevCells) {
       var clickCell = prevCells[clickIndex];
-      return prevCells[clickIndex] =
+      prevCells[clickIndex] =
           Cell(clickCell.coords, Revealed(), clickCell.content);
     });
 

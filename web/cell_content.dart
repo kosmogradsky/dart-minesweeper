@@ -20,12 +20,16 @@ abstract class CellContent {
     return Hint(bombsAround);
   }
 
+  bool get revealsCellsAround;
+
   void render(CellCoords coords, CanvasRenderingContext2D context);
 }
 
 class Hint implements CellContent {
   final int bombsAround;
   const Hint(this.bombsAround);
+
+  bool get revealsCellsAround => bombsAround == 0;
 
   void render(CellCoords coords, CanvasRenderingContext2D context) {
     if (bombsAround != 0) {
@@ -39,6 +43,8 @@ class Hint implements CellContent {
 
 class Mine implements CellContent {
   const Mine();
+
+  final revealsCellsAround = false;
 
   void render(CellCoords coords, CanvasRenderingContext2D context) {
     context.fillStyle = 'gray';
