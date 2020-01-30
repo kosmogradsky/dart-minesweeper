@@ -21,12 +21,15 @@ abstract class CellContent {
   }
 
   bool get revealsCellsAround;
+  bool get canBeRevealedByFloodFill;
 
   void render(CellCoords coords, CanvasRenderingContext2D context);
 }
 
 class Hint implements CellContent {
   final int bombsAround;
+  final bool canBeRevealedByFloodFill = true;
+
   const Hint(this.bombsAround);
 
   bool get revealsCellsAround => bombsAround == 0;
@@ -42,9 +45,10 @@ class Hint implements CellContent {
 }
 
 class Mine implements CellContent {
-  const Mine();
+  final bool revealsCellsAround = false;
+  final bool canBeRevealedByFloodFill = false;
 
-  final revealsCellsAround = false;
+  const Mine();
 
   void render(CellCoords coords, CanvasRenderingContext2D context) {
     context.fillStyle = 'gray';

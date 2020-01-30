@@ -14,24 +14,26 @@ class CellCoords {
 
   int get hashCode => hash2(row, column);
 
-  static BuiltSet<CellCoords> getNeighbors(CellCoords coords) {
+  int get index => row * boardSize + column;
+
+  BuiltSet<CellCoords> get neighbors {
     var neighbors = <CellCoords>{};
 
-    for (var row = coords.row - 1; row < coords.row + 1; row++) {
-      if (row < 0 || row > boardSize) {
+    for (var neighborRow = row - 1; neighborRow <= row + 1; neighborRow++) {
+      if (neighborRow < 0 || neighborRow > boardSize) {
         continue;
       }
 
-      for (var column = coords.column - 1;
-          column < coords.column + 1;
-          column++) {
-        if (column < 0 || column > boardSize) {
+      for (var neighborColumn = column - 1;
+          neighborColumn <= column + 1;
+          neighborColumn++) {
+        if (neighborColumn < 0 || neighborColumn > boardSize) {
           continue;
         }
 
-        var neighbor = CellCoords(row, column);
+        var neighbor = CellCoords(neighborRow, neighborColumn);
 
-        if (neighbor == coords) {
+        if (neighbor == this) {
           continue;
         }
 
@@ -40,5 +42,9 @@ class CellCoords {
     }
 
     return neighbors.build();
+  }
+
+  String toString() {
+    return '($row, $column)';
   }
 }

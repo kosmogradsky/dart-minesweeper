@@ -67,15 +67,21 @@ void main() {
         .clamp(0, canvasSize);
     var clickY = (event.client.y - canvasRect.top - canvas.clientTop)
         .clamp(0, canvasSize);
-    var clickRow = clickY ~/ cellSize;
-    var clickColumn = clickX ~/ cellSize;
-    var clickIndex = clickRow * boardSize + clickColumn;
-    var nextCells = game.cells.rebuild((prevCells) {
-      var clickCell = prevCells[clickIndex];
-      prevCells[clickIndex] =
-          Cell(clickCell.coords, Revealed(), clickCell.content);
-    });
+    var revealQueue = [CellCoords(clickY ~/ cellSize, clickX ~/ cellSize)];
 
-    game.cells = nextCells;
+    while (revealQueue.isEmpty == false) {
+      var revealingCoords = revealQueue.removeLast();
+      var revealingCell = game[revealingCoords];
+
+      if (revealingCell.status.isRevealed == false &&
+          revealingCell.content.canBeRevealedByFloodFill) {
+        game[revealingCoords] =
+            Cell(revealingCell.coords, Revealed(), revealingCell.content);
+
+        if (revealingCell.content.revealsCellsAround) {
+          revealQueue = revealingCell.coords.neighbors.toList() + revealQueue;
+        }
+      }
+    }
   });
 }
