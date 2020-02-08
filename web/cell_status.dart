@@ -17,7 +17,7 @@ class Hidden implements CellStatus {
   }
 }
 
-class Flag implements CellStatus {
+class Flagged implements CellStatus {
   final bool isRevealed = true;
 
   void render(CellCoords coords, CellContent content,

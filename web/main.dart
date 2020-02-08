@@ -84,4 +84,20 @@ void main() {
       }
     }
   });
+
+  canvas.onContextMenu.listen((event) {
+    event.preventDefault();
+
+    var canvasRect = canvas.getBoundingClientRect();
+    var clickX = (event.client.x - canvasRect.left - canvas.clientLeft)
+        .clamp(0, canvasSize);
+    var clickY = (event.client.y - canvasRect.top - canvas.clientTop)
+        .clamp(0, canvasSize);
+
+    var revealingCoords = CellCoords(clickY ~/ cellSize, clickX ~/ cellSize);
+    var revealingCell = game[revealingCoords];
+
+    game[revealingCoords] =
+        Cell(revealingCell.coords, Flagged(), revealingCell.content);
+  });
 }
