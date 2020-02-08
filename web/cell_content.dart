@@ -51,7 +51,7 @@ class Mine implements CellContent {
   const Mine();
 
   void render(CellCoords coords, CanvasRenderingContext2D context) {
-    context.fillStyle = 'gray';
+    context.fillStyle = 'yellow';
     context.beginPath();
     context.arc(coords.x + cellSize / 2, coords.y + cellSize / 2, cellSize / 4,
         0, 2 * pi);

@@ -30,5 +30,17 @@ void main() {
 
       expect(coords.neighbors, equals(expected));
     });
+
+    test('correctly finds neighbors for cornered cell', () {
+      const coords = CellCoords(boardSize - 1, boardSize - 1);
+
+      var expected = {
+        CellCoords(boardSize - 1, boardSize - 2),
+        CellCoords(boardSize - 2, boardSize - 2),
+        CellCoords(boardSize - 2, boardSize - 1)
+      }.build();
+
+      expect(coords.neighbors, equals(expected));
+    });
   });
 }

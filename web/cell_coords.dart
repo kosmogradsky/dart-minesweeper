@@ -20,14 +20,14 @@ class CellCoords {
     var neighbors = <CellCoords>{};
 
     for (var neighborRow = row - 1; neighborRow <= row + 1; neighborRow++) {
-      if (neighborRow < 0 || neighborRow > boardSize) {
+      if (neighborRow < 0 || neighborRow > boardSize - 1) {
         continue;
       }
 
       for (var neighborColumn = column - 1;
           neighborColumn <= column + 1;
           neighborColumn++) {
-        if (neighborColumn < 0 || neighborColumn > boardSize) {
+        if (neighborColumn < 0 || neighborColumn > boardSize - 1) {
           continue;
         }
 
