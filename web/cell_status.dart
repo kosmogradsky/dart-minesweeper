@@ -1,14 +1,14 @@
 part of dart_minesweeper;
 
 abstract class CellStatus {
-  bool get isRevealed;
+  CellStatus get statusAfterRightClick;
 
   void render(
       CellCoords coords, CellContent content, CanvasRenderingContext2D context);
 }
 
 class Hidden implements CellStatus {
-  final bool isRevealed = false;
+  CellStatus get statusAfterRightClick => Flagged();
 
   void render(CellCoords coords, CellContent content,
       CanvasRenderingContext2D context) {
@@ -18,7 +18,7 @@ class Hidden implements CellStatus {
 }
 
 class Flagged implements CellStatus {
-  final bool isRevealed = true;
+  CellStatus get statusAfterRightClick => Hidden();
 
   void render(CellCoords coords, CellContent content,
       CanvasRenderingContext2D context) {
@@ -37,7 +37,7 @@ class Flagged implements CellStatus {
 }
 
 class Revealed implements CellStatus {
-  final bool isRevealed = true;
+  CellStatus get statusAfterRightClick => Revealed();
 
   void render(CellCoords coords, CellContent content,
       CanvasRenderingContext2D context) {

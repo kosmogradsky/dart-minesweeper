@@ -62,19 +62,16 @@ void main() {
   game.run();
 
   canvas.onClick.listen((event) {
-    var canvasRect = canvas.getBoundingClientRect();
-    var clickX = (event.client.x - canvasRect.left - canvas.clientLeft)
-        .clamp(0, canvasSize);
-    var clickY = (event.client.y - canvasRect.top - canvas.clientTop)
-        .clamp(0, canvasSize);
-    var revealQueue = [CellCoords(clickY ~/ cellSize, clickX ~/ cellSize)];
+    var canvasCoords = CanvasCoords(
+        canvas.clientLeft, canvas.clientTop, canvas.getBoundingClientRect());
+    var revealQueue = [CellCoords.fromMouseEvent(event, canvasCoords)];
 
     while (revealQueue.isEmpty == false) {
       var revealingCoords = revealQueue.removeLast();
       var revealingCell = game[revealingCoords];
 
-      if (revealingCell.status.isRevealed == false &&
-          revealingCell.content.canBeRevealedByFloodFill) {
+      if (revealingCell.status is Revealed &&
+          revealingCell.content is LandMine) {
         game[revealingCoords] =
             Cell(revealingCell.coords, Revealed(), revealingCell.content);
 
@@ -88,16 +85,12 @@ void main() {
   canvas.onContextMenu.listen((event) {
     event.preventDefault();
 
-    var canvasRect = canvas.getBoundingClientRect();
-    var clickX = (event.client.x - canvasRect.left - canvas.clientLeft)
-        .clamp(0, canvasSize);
-    var clickY = (event.client.y - canvasRect.top - canvas.clientTop)
-        .clamp(0, canvasSize);
-
-    var revealingCoords = CellCoords(clickY ~/ cellSize, clickX ~/ cellSize);
+    var canvasCoords = CanvasCoords(
+        canvas.clientLeft, canvas.clientTop, canvas.getBoundingClientRect());
+    var revealingCoords = CellCoords.fromMouseEvent(event, canvasCoords);
     var revealingCell = game[revealingCoords];
 
-    game[revealingCoords] =
-        Cell(revealingCell.coords, Flagged(), revealingCell.content);
+    game[revealingCoords] = Cell(revealingCell.coords,
+        revealingCell.status.statusAfterRightClick, revealingCell.content);
   });
 }

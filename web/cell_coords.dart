@@ -1,5 +1,13 @@
 part of dart_minesweeper;
 
+class CanvasCoords {
+  final int clientLeft;
+  final int clientTop;
+  final Rectangle<num> rect;
+
+  const CanvasCoords(this.clientLeft, this.clientTop, this.rect);
+}
+
 class CellCoords {
   final int row;
   final int column;
@@ -8,6 +16,18 @@ class CellCoords {
   int get y => row * cellSize + 1;
 
   const CellCoords(this.row, this.column);
+
+  factory CellCoords.fromMouseEvent(
+      MouseEvent event, CanvasCoords canvasCoords) {
+    var clickX =
+        (event.client.x - canvasCoords.rect.left - canvasCoords.clientLeft)
+            .clamp(0, canvasSize);
+    var clickY =
+        (event.client.y - canvasCoords.rect.top - canvasCoords.clientTop)
+            .clamp(0, canvasSize);
+
+    return CellCoords(clickY ~/ cellSize, clickX ~/ cellSize);
+  }
 
   bool operator ==(Object to) =>
       to is CellCoords && to.row == row && to.column == column;

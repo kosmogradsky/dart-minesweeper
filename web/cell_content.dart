@@ -3,7 +3,7 @@ part of dart_minesweeper;
 abstract class CellContent {
   factory CellContent(CellCoords coords, Iterable<CellCoords> fieldBombs) {
     if (fieldBombs.contains(coords)) {
-      return Mine();
+      return LandMine();
     }
 
     var bombsAround = fieldBombs.fold<int>(0, (count, bomb) {
@@ -21,14 +21,12 @@ abstract class CellContent {
   }
 
   bool get revealsCellsAround;
-  bool get canBeRevealedByFloodFill;
 
   void render(CellCoords coords, CanvasRenderingContext2D context);
 }
 
 class Hint implements CellContent {
   final int bombsAround;
-  final bool canBeRevealedByFloodFill = true;
 
   const Hint(this.bombsAround);
 
@@ -44,11 +42,10 @@ class Hint implements CellContent {
   }
 }
 
-class Mine implements CellContent {
+class LandMine implements CellContent {
   final bool revealsCellsAround = false;
-  final bool canBeRevealedByFloodFill = false;
 
-  const Mine();
+  const LandMine();
 
   void render(CellCoords coords, CanvasRenderingContext2D context) {
     context.fillStyle = 'yellow';
